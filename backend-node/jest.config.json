@@ -1,0 +1,8 @@
+{
+  "testRegex": "((\\.|/*.)(spec))\\.(js|ts)?$",
+  "reporters": ["default", "jest-stare"],
+  "testResultsProcessor": "./node_modules/jest-stare",
+  "transform": {
+    "^.+\\.ts?$": "ts-jest"
+  }
+}

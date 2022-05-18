@@ -1,0 +1,14 @@
+Input:
+
+Shipping: 10€
+items: [ 
+    Alice, 8, 2.5€
+    Bernard, 5, 1€
+]
+
+Output: 
+
+Bills: [
+    Alice, 20€, 8€
+    Bernard, 5€, 2€
+]
