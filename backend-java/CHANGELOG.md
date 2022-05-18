@@ -12,3 +12,4 @@
 * Create docker container
 * Add spring-data-jpa dependency
 * Create user in database (Rest, Postgres, etc)
+* CRUD on user table 
