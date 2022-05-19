@@ -1,5 +1,6 @@
 package com.codeworks.onboarding.use_cases.bills;
 
+import com.codeworks.onboarding.domain.ComputedBills;
 import com.codeworks.onboarding.domain.Item;
 import com.codeworks.onboarding.domain.ShippingFee;
 import com.codeworks.onboarding.infrastructure.bills.compute.ComputeBillsServiceImpl;
@@ -25,8 +26,12 @@ public class ComputeBillsResourceTest {
 
     @Test
     public void should_compute_bills() {
-        when(computeBillsService.execute(Mockito.any())).thenReturn(null);
-        Assert.assertEquals("", computeBillsResource.execute(buildShippingFee()));
+        when(computeBillsService.execute(Mockito.any())).thenReturn(Arrays.asList(
+                ComputedBills.builder().name("Alice").total(1d).shipping(.33).build(),
+                ComputedBills.builder().name("Bertrand").total(1d).shipping(.34).build(),
+                ComputedBills.builder().name("John").total(1d).shipping(.33).build()
+                ));
+        Assert.assertEquals(3, computeBillsResource.execute(buildShippingFee()).size());
     }
 
     private ShippingFee buildShippingFee() {
