@@ -11,7 +11,6 @@ app.get("/", (req: any, res: any) => {
 });
 
 app.post("/compute-bills", (req: any, res: any) => {
-    console.log(computeBills(req.body.shipping, req.body.items))
     res.send(computeBills(req.body.shipping, req.body.items));
 });
 

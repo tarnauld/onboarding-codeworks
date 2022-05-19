@@ -13,3 +13,6 @@
 * Add spring-data-jpa dependency
 * Create user in database (Rest, Postgres, etc)
 * CRUD on user table 
+* CRUD for purchase, purchase items, bills and bill items
+* Add configuration for local and prod
+* Call Node API to compute bills
