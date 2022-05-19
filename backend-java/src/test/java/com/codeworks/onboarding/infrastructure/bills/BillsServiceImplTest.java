@@ -1,7 +1,5 @@
-package com.codeworks.onboarding.use_cases.bills;
+package com.codeworks.onboarding.infrastructure.bills;
 
-import com.codeworks.onboarding.infrastructure.bills.BillsEntity;
-import com.codeworks.onboarding.infrastructure.bills.BillsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,12 +16,12 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-public class BillsResourceTest {
+public class BillsServiceImplTest {
     @Mock
-    private BillsService billsService;;
+    private BillsRepository billsRepository;
 
     @InjectMocks
-    private BillsResource billsResource;
+    private BillsServiceImpl billsService;
 
     private LocalDate creationDate;
 
@@ -34,9 +32,9 @@ public class BillsResourceTest {
 
     @Test
     public void should_get_bills() {
-        when(billsService.getBills()).thenReturn(buildBills());
+        when(billsRepository.findAll()).thenReturn(buildBills());
 
-        List<BillsEntity> bills = billsResource.getBills();
+        List<BillsEntity> bills = billsService.getBills();
         BillsEntity bill = bills.get(0);
 
         Assert.assertEquals(Long.valueOf(1L), bill.getId());
@@ -48,10 +46,10 @@ public class BillsResourceTest {
 
     @Test
     public void should_get_bill_by_id() {
-        when(billsService.findBillBy(Mockito.anyLong()))
+        when(billsRepository.findById(Mockito.anyLong()))
                 .thenReturn(BillsEntity.builder().id(1L).userId(1L).creationDate(LocalDate.now()).build());
 
-        BillsEntity bill = billsResource.findBillBy(1L);
+        BillsEntity bill = billsService.findBillBy(1L);
 
         Assert.assertEquals(Long.valueOf(1L), bill.getId());
         Assert.assertEquals(Long.valueOf(1L), bill.getUserId());
@@ -60,9 +58,9 @@ public class BillsResourceTest {
 
     @Test
     public void should_save_bill() {
-        when(billsService.create(Mockito.any())).thenReturn(BillsEntity.builder().id(1L).userId(1L).creationDate(LocalDate.now()).build());
+        when(billsRepository.save(Mockito.any())).thenReturn(BillsEntity.builder().id(1L).userId(1L).creationDate(LocalDate.now()).build());
 
-        BillsEntity bill = billsResource.createBill(BillsEntity.builder().id(1L).userId(1L).creationDate(LocalDate.now()).build());
+        BillsEntity bill = billsService.create(BillsEntity.builder().id(1L).userId(1L).creationDate(LocalDate.now()).build());
 
         Assert.assertEquals(Long.valueOf(1L), bill.getId());
         Assert.assertEquals(Long.valueOf(1L), bill.getUserId());
@@ -71,9 +69,9 @@ public class BillsResourceTest {
 
     @Test
     public void should_delete_bill() {
-        when(billsService.deleteBill(Mockito.anyLong())).thenReturn(BillsEntity.builder().build());
+        when(billsRepository.deleteById(Mockito.anyLong())).thenReturn(BillsEntity.builder().build());
 
-        BillsEntity bill = billsResource.deleteBill(1L);
+        BillsEntity bill = billsService.deleteBill(1L);
 
         Assert.assertNull(bill.getId());
     }

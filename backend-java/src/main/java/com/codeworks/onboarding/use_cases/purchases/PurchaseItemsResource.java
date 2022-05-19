@@ -17,7 +17,7 @@ public class PurchaseItemsResource {
     }
 
     @GetMapping("/purchase/items")
-    public List<PurchaseItemsEntity> getBills() {
+    public List<PurchaseItemsEntity> getPurchaseItems() {
         return purchaseItemsService.getPurchasesItems();
     }
 

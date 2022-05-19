@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "bills")
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class BillsEntity {

@@ -1,7 +1,5 @@
-package com.codeworks.onboarding.use_cases.purchases;
+package com.codeworks.onboarding.infrastructure.purchase;
 
-import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
-import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,12 +16,12 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-public class PurchasesResourceTest {
+public class PurchasesServiceImplTest {
     @Mock
-    private PurchasesService purchasesService;
+    private PurchasesRepository purchasesRepository;
 
     @InjectMocks
-    private PurchasesResource purchasesResource;
+    private PurchasesServiceImpl purchasesService;
 
     private LocalDate creationDate;
 
@@ -34,9 +32,9 @@ public class PurchasesResourceTest {
 
     @Test
     public void should_get_purchases() {
-        when(purchasesService.getPurchases()).thenReturn(buildPurchases());
+        when(purchasesRepository.findAll()).thenReturn(buildPurchases());
 
-        List<PurchaseEntity> purchaseItems = purchasesResource.getPurchases();
+        List<PurchaseEntity> purchaseItems = purchasesService.getPurchases();
         PurchaseEntity purchaseItem = purchaseItems.get(0);
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
@@ -49,22 +47,22 @@ public class PurchasesResourceTest {
 
     @Test
     public void should_get_purchase_by_id() {
-        when(purchasesService.findPurchaseBy(Mockito.anyLong()))
+        when(purchasesRepository.findById(Mockito.anyLong()))
                 .thenReturn(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
 
-        PurchaseEntity purchaseItem = purchasesResource.findPurchaseBy(1L);
-
-        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
+        PurchaseEntity purchaseItem = purchasesService.findPurchaseBy(1L);
         Assert.assertEquals(1L, purchaseItem.getUserId());
         Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
         Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
+
+        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
     }
 
     @Test
     public void should_save_purchase() {
-        when(purchasesService.create(Mockito.any())).thenReturn(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
+        when(purchasesRepository.save(Mockito.any())).thenReturn(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
 
-        PurchaseEntity purchaseItem = purchasesResource.create(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
+        PurchaseEntity purchaseItem = purchasesService.create(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
         Assert.assertEquals(1L, purchaseItem.getUserId());
@@ -74,9 +72,9 @@ public class PurchasesResourceTest {
 
     @Test
     public void should_delete_purchase() {
-        when(purchasesService.deletePurchase(Mockito.anyLong())).thenReturn(PurchaseEntity.builder().build());
+        when(purchasesRepository.deleteById(Mockito.anyLong())).thenReturn(PurchaseEntity.builder().build());
 
-        PurchaseEntity purchaseItem = purchasesResource.deletePurchase(1L);
+        PurchaseEntity purchaseItem = purchasesService.deletePurchase(1L);
 
         Assert.assertNull(purchaseItem.getId());
     }

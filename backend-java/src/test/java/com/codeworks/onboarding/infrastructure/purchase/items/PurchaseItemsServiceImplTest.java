@@ -1,7 +1,5 @@
-package com.codeworks.onboarding.use_cases.purchases;
+package com.codeworks.onboarding.infrastructure.purchase.items;
 
-import com.codeworks.onboarding.infrastructure.purchase.items.PurchaseItemsEntity;
-import com.codeworks.onboarding.infrastructure.purchase.items.PurchaseItemsService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,18 +14,18 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-public class PurchaseItemsResourceTest {
+public class PurchaseItemsServiceImplTest {
     @Mock
-    private PurchaseItemsService purchaseItemsService;
+    private PurchaseItemsRepository purchaseItemsRepository;
 
     @InjectMocks
-    private PurchaseItemsResource purchaseItemsResource;
+    private PurchaseItemsServiceImpl purchaseItemsService;
 
     @Test
     public void should_get_purchase_items() {
-        when(purchaseItemsService.getPurchasesItems()).thenReturn(buildPurchaseItems());
+        when(purchaseItemsRepository.findAll()).thenReturn(buildPurchaseItems());
 
-        List<PurchaseItemsEntity> purchaseItems = purchaseItemsResource.getPurchaseItems();
+        List<PurchaseItemsEntity> purchaseItems = purchaseItemsService.getPurchasesItems();
         PurchaseItemsEntity purchaseItem = purchaseItems.get(0);
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
@@ -36,16 +34,15 @@ public class PurchaseItemsResourceTest {
         Assert.assertEquals("pencil", purchaseItem.getLabel());
         Assert.assertEquals(Integer.valueOf(10), purchaseItem.getQuantity());
         Assert.assertEquals(Integer.valueOf(20), purchaseItem.getUnitPrice());
-
         Assert.assertEquals(4, purchaseItems.size());
     }
 
     @Test
     public void should_get_purchase_item_by_id() {
-        when(purchaseItemsService.findPurchaseItemBy(Mockito.anyLong()))
+        when(purchaseItemsRepository.findById(Mockito.anyLong()))
                 .thenReturn(PurchaseItemsEntity.builder().id(1L).purchaseId(1L).buyerId(1L).label("pencil").quantity(10).unitPrice(20).build());
 
-        PurchaseItemsEntity purchaseItem = purchaseItemsResource.findPurchaseItemBy(1L);
+        PurchaseItemsEntity purchaseItem = purchaseItemsService.findPurchaseItemBy(1L);
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getPurchaseId());
@@ -57,9 +54,9 @@ public class PurchaseItemsResourceTest {
 
     @Test
     public void should_save_purchase_item() {
-        when(purchaseItemsService.create(Mockito.any())).thenReturn(PurchaseItemsEntity.builder().id(1L).purchaseId(1L).buyerId(1L).label("pencil").quantity(10).unitPrice(20).build());
+        when(purchaseItemsRepository.save(Mockito.any())).thenReturn(PurchaseItemsEntity.builder().id(1L).purchaseId(1L).buyerId(1L).label("pencil").quantity(10).unitPrice(20).build());
 
-        PurchaseItemsEntity purchaseItem = purchaseItemsResource.create(PurchaseItemsEntity.builder().id(1L).purchaseId(1L).buyerId(1L).label("pencil").quantity(10).unitPrice(20).build());
+        PurchaseItemsEntity purchaseItem = purchaseItemsService.create(PurchaseItemsEntity.builder().id(1L).purchaseId(1L).buyerId(1L).label("pencil").quantity(10).unitPrice(20).build());
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getPurchaseId());
@@ -71,9 +68,9 @@ public class PurchaseItemsResourceTest {
 
     @Test
     public void should_delete_purchase_item() {
-        when(purchaseItemsService.deletePurchaseItems(Mockito.anyLong())).thenReturn(PurchaseItemsEntity.builder().build());
+        when(purchaseItemsRepository.deleteById(Mockito.anyLong())).thenReturn(PurchaseItemsEntity.builder().build());
 
-        PurchaseItemsEntity purchaseItem = purchaseItemsResource.deletePurchaseItem(1L);
+        PurchaseItemsEntity purchaseItem = purchaseItemsService.deletePurchaseItems(1L);
 
         Assert.assertNull(purchaseItem.getId());
     }
