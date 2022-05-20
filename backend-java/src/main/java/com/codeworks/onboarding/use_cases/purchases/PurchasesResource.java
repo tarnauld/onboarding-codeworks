@@ -1,9 +1,11 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
+import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
 import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,5 +36,11 @@ public class PurchasesResource {
     @DeleteMapping("/purchases/{id}")
     public PurchaseEntity deletePurchase(@PathVariable long id) {
         return purchasesService.deletePurchase(id);
+    }
+
+    @PostMapping("/purchases/upload")
+    @CrossOrigin(origins = "*")
+    public List<Purchase> uploadCSV(@RequestParam("file") MultipartFile multipartFile) {
+        return purchasesService.uploadCSV(multipartFile);
     }
 }
