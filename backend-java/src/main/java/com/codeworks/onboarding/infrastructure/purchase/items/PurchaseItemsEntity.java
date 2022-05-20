@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "purchase_items")
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PurchaseItemsEntity {
