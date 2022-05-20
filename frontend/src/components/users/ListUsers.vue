@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-    <h1>List users</h1>
+    <h1>Users list</h1>
     <table class="va-table">
       <thead>
       <tr>
