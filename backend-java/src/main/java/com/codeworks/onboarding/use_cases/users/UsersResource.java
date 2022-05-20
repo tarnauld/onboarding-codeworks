@@ -17,6 +17,7 @@ public class UsersResource {
     }
 
     @GetMapping("/users")
+    @CrossOrigin(origins = "*")
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
@@ -27,11 +28,13 @@ public class UsersResource {
     }
 
     @PostMapping("/users")
+    @CrossOrigin(origins = "*")
     public UserEntity createUser(@RequestBody UserEntity user) {
         return userService.create(user);
     }
 
     @DeleteMapping("/users/{id}")
+    @CrossOrigin(origins = "*")
     public UserEntity deleteUser(@PathVariable long id) {
         return userService.deleteUser(id);
     }
