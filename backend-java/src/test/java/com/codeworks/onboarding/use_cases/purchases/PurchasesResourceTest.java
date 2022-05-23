@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -95,9 +97,9 @@ public class PurchasesResourceTest {
         MockMultipartFile mockMultipartFile =
                 new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8));
 
-        List<Purchase> purchases = purchasesResource.uploadCSV(mockMultipartFile);
+        ResponseEntity<List<Purchase>> response = purchasesResource.uploadCSV(mockMultipartFile);
 
-        Assert.assertEquals(1, purchases.size());
+        Assert.assertEquals(1, Objects.requireNonNull(response.getBody()).size());
     }
 
     private String buildContent() {

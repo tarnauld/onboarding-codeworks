@@ -46,9 +46,8 @@ public class PurchasesServiceImpl implements PurchasesService {
     public List<Purchase> uploadCSV(MultipartFile multipartFile) {
         try {
             return uploadCSVService.uploadCSV(multipartFile);
-        } catch(IOException e) {
-            e.printStackTrace();
+        } catch(Exception e) {
+            throw new UploadServiceException(String.format("An exception occured while trying to upload file %s", multipartFile.getOriginalFilename()));
         }
-        throw new UploadServiceException(String.format("An exception occured while trying to upload file %s", multipartFile.getOriginalFilename()));
     }
 }

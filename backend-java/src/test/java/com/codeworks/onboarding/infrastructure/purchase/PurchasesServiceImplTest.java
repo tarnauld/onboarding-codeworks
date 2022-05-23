@@ -1,5 +1,6 @@
 package com.codeworks.onboarding.infrastructure.purchase;
 
+import com.codeworks.onboarding.domain.exceptions.UploadServiceException;
 import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.upload.UploadCSVServiceImpl;
 import org.junit.Assert;
@@ -101,6 +102,14 @@ public class PurchasesServiceImplTest {
 
         Assert.assertEquals(1, purchases.size());
 
+    }
+
+    @Test(expected = UploadServiceException.class)
+    public void should_raise_exception() throws IOException {
+        when(uploadCSVService.uploadCSV(any(MultipartFile.class))).thenThrow(new IOException(""));
+
+        purchasesService.uploadCSV(
+                new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes()));
     }
 
     private String buildContent() {
