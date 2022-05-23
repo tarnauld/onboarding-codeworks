@@ -1,9 +1,11 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
+import com.codeworks.onboarding.domain.exceptions.UploadServiceException;
 import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
 import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +42,12 @@ public class PurchasesResource {
 
     @PostMapping("/purchases/upload")
     @CrossOrigin(origins = "*")
-    public List<Purchase> uploadCSV(@RequestParam("file") MultipartFile multipartFile) {
-        return purchasesService.uploadCSV(multipartFile);
+    public ResponseEntity<List<Purchase>> uploadCSV(@RequestParam("file") MultipartFile multipartFile) {
+        try {
+            List<Purchase> purchases = purchasesService.uploadCSV(multipartFile);
+            return ResponseEntity.ok(purchases);
+        } catch(UploadServiceException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
