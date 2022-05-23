@@ -25,6 +25,6 @@ public class PurchaseCSV {
     }
 
     public Purchase toPurchase() {
-        return new Purchase(label, unitPrice, quantity, amount, name);
+        return new Purchase(label.trim(), unitPrice, quantity, amount, name.trim());
     }
 }

@@ -18,4 +18,5 @@
 * Call Node API to compute bills
 * Open route with CORS (Allow origin)
 * Create route for uploading group purchase order CSV file
-* Parse CSV file into Purchase object 
+* Parse CSV file into Purchase object
+* Trim label & name for Purchase objects

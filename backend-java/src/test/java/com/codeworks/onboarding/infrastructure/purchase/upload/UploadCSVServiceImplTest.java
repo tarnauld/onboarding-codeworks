@@ -22,11 +22,16 @@ public class UploadCSVServiceImplTest {
         List<Purchase> purchases = uploadCSVService.uploadCSV(
                 new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8)));
 
-        Assert.assertEquals(6, purchases.size());
+        Purchase purchase = purchases.get(0);
+
+        Assert.assertEquals(7, purchases.size());
+        Assert.assertEquals("pencils", purchase.getLabel());
+        Assert.assertEquals("Bertrand", purchase.getName());
     }
 
     private String buildContent() {
-        return "pencils,0.50 ,20,10.00,Bertrand\n" +
+        return "item              , unitp  , qty , amount , buyer\n" +
+                "   pencils        ,0.50 ,20,10.00,    Bertrand\n" +
                 "paper,1.50 ,25, 37.50,Alice\n" +
                 "paper,1.80,50,90.00,Desmond\n" +
                 "laundry detergent,2.00,10,20.00,Clara\n" +
