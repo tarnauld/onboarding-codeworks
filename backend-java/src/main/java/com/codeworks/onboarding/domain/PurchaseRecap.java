@@ -6,9 +6,9 @@ import lombok.Getter;
 import java.util.List;
 
 @Builder
-public class ShippingFee {
+public class PurchaseRecap {
     @Getter
-    private Long shipping;
+    private Float shipping;
 
     @Getter
     private List<Item> items;

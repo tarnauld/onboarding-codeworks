@@ -47,17 +47,6 @@ public class UserResourceTest {
     }
 
     @Test
-    public void should_get_user_by_id() {
-        when(userService.findUserBy(Mockito.anyLong()))
-                .thenReturn(UserEntity.builder().id(1L).name("John").birthDate(LocalDate.now()).build());
-
-        UserEntity user = userResource.findUserBy(1L);
-
-        Assert.assertEquals(Long.valueOf(1L), user.getId());
-        Assert.assertEquals("John", user.getName());
-    }
-
-    @Test
     public void should_save_user() {
         when(userService.create(Mockito.any())).thenReturn(UserEntity.builder().id(1L).name("John").birthDate(LocalDate.now()).build());
 

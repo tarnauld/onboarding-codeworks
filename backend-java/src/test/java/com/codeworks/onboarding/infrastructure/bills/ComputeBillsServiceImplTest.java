@@ -1,7 +1,7 @@
-package com.codeworks.onboarding.infrastructure.bills.compute;
+package com.codeworks.onboarding.infrastructure.bills;
 
 import com.codeworks.onboarding.domain.ComputedBills;
-import com.codeworks.onboarding.domain.ShippingFee;
+import com.codeworks.onboarding.domain.PurchaseRecap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class ComputeBillsServiceImplTest {
                                     ArgumentMatchers.any(ParameterizedTypeReference.class)))
                 .thenReturn(new ResponseEntity<>(buildComputedBills(), HttpStatus.OK));
 
-        List<ComputedBills> computedBills = computeBillsService.execute(ShippingFee.builder().build());
+        List<ComputedBills> computedBills = computeBillsService.execute(PurchaseRecap.builder().build());
 
         Assert.assertEquals(3, computedBills.size());
     }

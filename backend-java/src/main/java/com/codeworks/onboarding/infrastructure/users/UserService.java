@@ -7,4 +7,6 @@ public interface UserService {
     UserEntity findUserBy(long id);
     UserEntity create(UserEntity user);
     UserEntity deleteUser(long id);
+
+    UserEntity findUserByName(String name);
 }

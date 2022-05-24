@@ -1,9 +1,10 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
+import com.codeworks.onboarding.domain.ComputedBills;
 import com.codeworks.onboarding.domain.exceptions.UploadServiceException;
-import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
 import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
+import com.codeworks.onboarding.infrastructure.purchase.orchestrator.PurchaseOrchestrator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,13 @@ import java.util.List;
 public class PurchasesResource {
     private final PurchasesService purchasesService;
 
+    private final PurchaseOrchestrator purchaseOrchestrator;
+
     @Autowired
-    public PurchasesResource(PurchasesService purchasesService) {
+    public PurchasesResource(PurchasesService purchasesService,
+                             PurchaseOrchestrator purchaseOrchestrator) {
         this.purchasesService = purchasesService;
+        this.purchaseOrchestrator = purchaseOrchestrator;
     }
 
     @GetMapping("/purchases")
@@ -30,11 +35,6 @@ public class PurchasesResource {
         return purchasesService.findPurchaseBy(id);
     }
 
-    @PostMapping("/purchases")
-    public PurchaseEntity create(@RequestBody PurchaseEntity bill) {
-        return purchasesService.create(bill);
-    }
-
     @DeleteMapping("/purchases/{id}")
     public PurchaseEntity deletePurchase(@PathVariable long id) {
         return purchasesService.deletePurchase(id);
@@ -42,11 +42,11 @@ public class PurchasesResource {
 
     @PostMapping("/purchases/upload")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<Purchase>> uploadCSV(@RequestParam("file") MultipartFile multipartFile) {
+    public ResponseEntity<List<ComputedBills>> uploadCSV(@RequestParam("file") MultipartFile multipartFile,
+                                                         @RequestParam("shipping") float shipping) {
         try {
-            List<Purchase> purchases = purchasesService.uploadCSV(multipartFile);
-            return ResponseEntity.ok(purchases);
-        } catch(UploadServiceException e) {
+            return ResponseEntity.ok(purchaseOrchestrator.process(multipartFile, shipping));
+        } catch (UploadServiceException e) {
             return ResponseEntity.badRequest().build();
         }
     }
