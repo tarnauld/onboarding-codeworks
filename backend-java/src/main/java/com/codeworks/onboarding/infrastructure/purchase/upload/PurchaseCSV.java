@@ -19,12 +19,7 @@ public class PurchaseCSV {
     @CsvBindByPosition(position = 4)
     private String name;
 
-    @Override
-    public String toString() {
-        return String.format("Label: %s; Unit price: %s; Quantity: %s; Amount: %s; Name: %s", label, unitPrice, quantity, amount, name);
-    }
-
     public Purchase toPurchase() {
-        return new Purchase(label.trim(), unitPrice, quantity, amount, name.trim());
+        return new Purchase(label.trim(), unitPrice, quantity, name.trim());
     }
 }

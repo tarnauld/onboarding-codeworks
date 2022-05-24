@@ -43,7 +43,7 @@ public class PurchasesResource {
     @PostMapping("/purchases/upload")
     @CrossOrigin(origins = "*")
     public ResponseEntity<List<ComputedBills>> uploadCSV(@RequestParam("file") MultipartFile multipartFile,
-                                                         @RequestParam("shipping") float shipping) {
+                                                         @RequestParam("shipping") Float shipping) {
         try {
             return ResponseEntity.ok(purchaseOrchestrator.process(multipartFile, shipping));
         } catch (UploadServiceException e) {

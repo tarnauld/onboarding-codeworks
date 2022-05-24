@@ -1,6 +1,7 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
 import com.codeworks.onboarding.domain.ComputedBills;
+import com.codeworks.onboarding.domain.exceptions.UploadServiceException;
 import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
 import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -86,7 +89,7 @@ public class PurchasesResourceTest {
     public void should_upload_csv() {
         when(purchasesService.create(any(PurchaseEntity.class))).thenReturn(PurchaseEntity.builder().build());
         when(purchasesService.uploadCSV(any(MultipartFile.class)))
-                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, 6., "Alice")));
+                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, "Alice")));
 
         MockMultipartFile mockMultipartFile =
                 new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8));
@@ -94,6 +97,18 @@ public class PurchasesResourceTest {
         ResponseEntity<List<ComputedBills>> response = purchasesResource.uploadCSV(mockMultipartFile, 8.f);
 
         Assert.assertEquals(0, Objects.requireNonNull(response.getBody()).size());
+    }
+
+    @Test
+    public void should_raise_an_exception_when_uploading_a_csv_file() {
+        when(purchaseOrchestrator.process(any(MultipartFile.class), anyFloat())).thenThrow(
+                new UploadServiceException("")
+        );
+
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8));
+
+        ResponseEntity<List<ComputedBills>> response = purchasesResource.uploadCSV(mockMultipartFile, 8.f);
+        Assert.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     private String buildContent() {

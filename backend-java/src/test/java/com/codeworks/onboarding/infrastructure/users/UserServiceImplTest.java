@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -71,6 +72,20 @@ public class UserServiceImplTest {
         UserEntity user = userService.deleteUser(1L);
 
         Assert.assertNull(user.getName());
+    }
+
+    @Test
+    public void should_find_user_by_name() {
+        when(userRepository.findByName(anyString())).thenReturn(UserEntity.builder()
+                .id(1L)
+                .name("John")
+                .birthDate(LocalDate.now())
+                .build());
+
+        UserEntity user = userService.findUserByName("John");
+
+        Assert.assertEquals("John", user.getName());
+        Assert.assertEquals(Long.valueOf(1L), user.getId());
     }
 
     private List<UserEntity> buildUsers() {
