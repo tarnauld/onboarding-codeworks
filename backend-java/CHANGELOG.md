@@ -20,3 +20,6 @@
 * Create route for uploading group purchase order CSV file
 * Parse CSV file into Purchase object
 * Trim label & name for Purchase objects
+* Build PurchaseRecap object using CSV file
+* Implement the orchestrator
+* Remove unused classes and methods
