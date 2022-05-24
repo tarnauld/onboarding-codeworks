@@ -23,7 +23,7 @@ export function computeBills(shipping: number, items: Array<Shipping>) {
     const totalShipping = result.map(r => r.shipping)
                                 .reduce((a, b) => a + b, 0);
 
-    if(totalShipping !== shipping) {
+    if(totalShipping !== shipping && result.length > 0) {
         return cascadeRounding(shipping, result);
     }
     
@@ -47,16 +47,14 @@ function buildMap(items: Shipping[]) {
 }
 
 function cascadeRounding(shipping: number, bills: Array<Bill>): Array<Bill> {
-    let totalShippingFee = shipping;
-    let billLeft = bills.length;
+    let remainingShipping = getRemainingShipping(shipping, bills);
+    let billIndex = 0;
 
-    bills.forEach((bill, index) => {
-        if(index !== 0) {
-            bill.shipping = rounded(totalShippingFee / billLeft);
-        }
-        totalShippingFee = rounded(totalShippingFee - bill.shipping);
-        billLeft--;
-    });
+    while(remainingShipping !== 0.00) {
+        remainingShipping = remainingShipping.toFixed(2) as any - 0.01;
+        bills.at(billIndex)!.shipping = bills.at(0)!.shipping + 0.01;
+        billIndex = (billIndex === bills.length - 1)?0: billIndex + 1;
+    }
 
     return bills;
 }
@@ -67,4 +65,14 @@ function rounded(n: number) {
 
 function computeTotal(quantity: number, price: number): number {
     return quantity * price;
+}
+
+function getRemainingShipping(shipping: number, bills: Bill[]) {
+    let total = 0;
+    
+    bills.forEach(bill => {
+        total += bill.shipping;
+    });
+
+    return rounded(shipping - total);
 }
