@@ -23,3 +23,5 @@
 * Build PurchaseRecap object using CSV file
 * Implement the orchestrator
 * Remove unused classes and methods
+* Configure logback
+* Configure prometheus
