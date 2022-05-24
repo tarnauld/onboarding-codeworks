@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PurchaseOrchestrator {
-    List<ComputedBills> process(MultipartFile multipartFile, float shipping);
+    List<ComputedBills> process(MultipartFile multipartFile, Float shipping);
 }

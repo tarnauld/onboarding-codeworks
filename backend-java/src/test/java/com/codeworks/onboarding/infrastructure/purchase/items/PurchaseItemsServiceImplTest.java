@@ -1,5 +1,8 @@
 package com.codeworks.onboarding.infrastructure.purchase.items;
 
+import com.codeworks.onboarding.domain.purchase.Purchase;
+import com.codeworks.onboarding.infrastructure.users.UserEntity;
+import com.codeworks.onboarding.infrastructure.users.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,12 +14,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class PurchaseItemsServiceImplTest {
     @Mock
     private PurchaseItemsRepository purchaseItemsRepository;
+
+    @Mock
+    private UserService userService;
 
     @InjectMocks
     private PurchaseItemsServiceImpl purchaseItemsService;
@@ -73,6 +80,20 @@ public class PurchaseItemsServiceImplTest {
         PurchaseItemsEntity purchaseItem = purchaseItemsService.deletePurchaseItems(1L);
 
         Assert.assertNull(purchaseItem.getId());
+    }
+
+    @Test
+    public void should_process() {
+        when(userService.findUserByName(anyString())).thenReturn(UserEntity.builder().name("John").id(1L).build());
+        List<PurchaseItemsEntity> purchases = purchaseItemsService.process(buildPurchases(), 1L);
+        Assert.assertEquals(2, purchases.size());
+    }
+
+    private List<Purchase> buildPurchases() {
+        return Arrays.asList(
+            new Purchase("pencil", 2d, 10, "John"),
+            new Purchase("pencil", 2d, 10, "Clara")
+        );
     }
 
     private List<PurchaseItemsEntity> buildPurchaseItems() {

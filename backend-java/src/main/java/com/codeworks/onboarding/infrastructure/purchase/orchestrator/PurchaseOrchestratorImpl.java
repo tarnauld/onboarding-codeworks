@@ -34,7 +34,7 @@ public class PurchaseOrchestratorImpl implements PurchaseOrchestrator {
     }
 
     @Override
-    public List<ComputedBills> process(MultipartFile multipartFile, float shipping) {
+    public List<ComputedBills> process(MultipartFile multipartFile, Float shipping) {
         List<Purchase> purchases = purchasesService.uploadCSV(multipartFile);
         PurchaseEntity purchaseEntity = createPurchaseEntity(shipping);
 

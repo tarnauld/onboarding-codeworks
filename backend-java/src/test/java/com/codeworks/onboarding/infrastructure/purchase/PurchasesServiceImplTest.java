@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -94,7 +95,7 @@ public class PurchasesServiceImplTest {
     @Test
     public void should_upload_csv() throws IOException {
         when(uploadCSVService.uploadCSV(any(MultipartFile.class)))
-                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, 6., "Alice")));
+                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, "Alice")));
 
         List<Purchase> purchases =
                 purchasesService.uploadCSV(
