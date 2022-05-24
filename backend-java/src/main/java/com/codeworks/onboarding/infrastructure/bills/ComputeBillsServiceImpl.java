@@ -1,7 +1,7 @@
-package com.codeworks.onboarding.infrastructure.bills.compute;
+package com.codeworks.onboarding.infrastructure.bills;
 
 import com.codeworks.onboarding.domain.ComputedBills;
-import com.codeworks.onboarding.domain.ShippingFee;
+import com.codeworks.onboarding.domain.PurchaseRecap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -29,9 +29,9 @@ public class ComputeBillsServiceImpl implements ComputeBillsService {
     }
 
     @Override
-    public List<ComputedBills> execute(ShippingFee shippingFee) {
+    public List<ComputedBills> execute(PurchaseRecap purchaseRecap) {
         String url = String.format("%s:%s/compute-bills", hostname, port);
-        HttpEntity<ShippingFee> entity = new HttpEntity<>(shippingFee);
+        HttpEntity<PurchaseRecap> entity = new HttpEntity<>(purchaseRecap);
         return restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<List<ComputedBills>>() {}).getBody();
     }
 }

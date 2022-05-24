@@ -2,8 +2,8 @@ package com.codeworks.onboarding.use_cases.bills;
 
 import com.codeworks.onboarding.domain.ComputedBills;
 import com.codeworks.onboarding.domain.Item;
-import com.codeworks.onboarding.domain.ShippingFee;
-import com.codeworks.onboarding.infrastructure.bills.compute.ComputeBillsServiceImpl;
+import com.codeworks.onboarding.domain.PurchaseRecap;
+import com.codeworks.onboarding.infrastructure.bills.ComputeBillsServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,9 +34,9 @@ public class ComputeBillsResourceTest {
         Assert.assertEquals(3, computeBillsResource.execute(buildShippingFee()).size());
     }
 
-    private ShippingFee buildShippingFee() {
-        return ShippingFee.builder()
-                .shipping(1L)
+    private PurchaseRecap buildShippingFee() {
+        return PurchaseRecap.builder()
+                .shipping(1.f)
                 .items(Arrays.asList(
                         Item.builder().name("Alice").quantity(1).price(1.).build(),
                         Item.builder().name("Bertrand").quantity(1).price(1.).build(),

@@ -22,11 +22,6 @@ public class UsersResource {
         return userService.getUsers();
     }
 
-    @GetMapping("/users/{id}")
-    public UserEntity findUserBy(@PathVariable long id) {
-        return userService.findUserBy(id);
-    }
-
     @PostMapping("/users")
     @CrossOrigin(origins = "*")
     public UserEntity createUser(@RequestBody UserEntity user) {

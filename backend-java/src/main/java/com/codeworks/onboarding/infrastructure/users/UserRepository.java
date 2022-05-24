@@ -8,4 +8,6 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     UserEntity findById(long id);
     List<UserEntity> findAll();
     UserEntity deleteById(long id);
+
+    UserEntity findByName(String name);
 }

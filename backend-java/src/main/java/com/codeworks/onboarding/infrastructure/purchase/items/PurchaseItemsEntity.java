@@ -31,5 +31,5 @@ public class PurchaseItemsEntity {
     private Long buyerId;
 
     @Getter
-    private Integer unitPrice;
+    private Double unitPrice;
 }

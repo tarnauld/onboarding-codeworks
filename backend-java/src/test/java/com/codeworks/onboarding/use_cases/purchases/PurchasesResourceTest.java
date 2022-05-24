@@ -1,8 +1,10 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
+import com.codeworks.onboarding.domain.ComputedBills;
 import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
 import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
+import com.codeworks.onboarding.infrastructure.purchase.orchestrator.PurchaseOrchestrator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +31,9 @@ import static org.mockito.Mockito.when;
 public class PurchasesResourceTest {
     @Mock
     private PurchasesService purchasesService;
+
+    @Mock
+    private PurchaseOrchestrator purchaseOrchestrator;
 
     @InjectMocks
     private PurchasesResource purchasesResource;
@@ -69,18 +74,6 @@ public class PurchasesResourceTest {
     }
 
     @Test
-    public void should_save_purchase() {
-        when(purchasesService.create(any())).thenReturn(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
-
-        PurchaseEntity purchaseItem = purchasesResource.create(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
-
-        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
-        Assert.assertEquals(1L, purchaseItem.getUserId());
-        Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
-        Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
-    }
-
-    @Test
     public void should_delete_purchase() {
         when(purchasesService.deletePurchase(Mockito.anyLong())).thenReturn(PurchaseEntity.builder().build());
 
@@ -91,15 +84,16 @@ public class PurchasesResourceTest {
 
     @Test
     public void should_upload_csv() {
+        when(purchasesService.create(any(PurchaseEntity.class))).thenReturn(PurchaseEntity.builder().build());
         when(purchasesService.uploadCSV(any(MultipartFile.class)))
                 .thenReturn(Collections.singletonList(new Purchase("", 2., 3, 6., "Alice")));
 
         MockMultipartFile mockMultipartFile =
                 new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8));
 
-        ResponseEntity<List<Purchase>> response = purchasesResource.uploadCSV(mockMultipartFile);
+        ResponseEntity<List<ComputedBills>> response = purchasesResource.uploadCSV(mockMultipartFile, 8.f);
 
-        Assert.assertEquals(1, Objects.requireNonNull(response.getBody()).size());
+        Assert.assertEquals(0, Objects.requireNonNull(response.getBody()).size());
     }
 
     private String buildContent() {

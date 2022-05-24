@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity deleteUser(long id) {
         return userRepository.deleteById(id);
     }
+
+    @Override
+    public UserEntity findUserByName(String name) {
+        return this.userRepository.findByName(name);
+    }
 }
