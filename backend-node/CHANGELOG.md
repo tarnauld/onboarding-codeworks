@@ -12,3 +12,4 @@
 * Compute bills
 * Cascade rounding
 * Open route for compute bills
+* Update cascade rounding algorithm to compute complex cases
