@@ -32,26 +32,21 @@ export default {
 <template>
     <h1>Users list</h1>
     <table class="va-table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Birthdate</th>
-        <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr v-for="user in users" :key="user.id">
-        <td>{{user.name}}</td>
-        <td>{{user.birthDate}}</td>
-        <td>
-            <va-button
-      class="mb-4 mr-4"
-      @click="deleteById(user.id)"
-    >
-      X
-    </va-button>
-        </td>
-      </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Birthdate</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="user in users" :key="user.id">
+                <td>{{ user.name }}</td>
+                <td>{{ user.birthDate }}</td>
+                <td>
+                    <va-icon @click="deleteById(user.id)" name="delete" color="gray" />
+                </td>
+            </tr>
+        </tbody>
     </table>
 </template>

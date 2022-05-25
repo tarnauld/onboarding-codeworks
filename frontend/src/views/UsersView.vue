@@ -18,12 +18,10 @@ export default {
     </div>
 </template>
 <style>
-    @media (min-width: 1024px) {
-        .users {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    }
+.users {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>

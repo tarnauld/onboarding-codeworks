@@ -1,6 +1,7 @@
 package com.codeworks.onboarding.infrastructure.purchase.orchestrator;
 
 import com.codeworks.onboarding.domain.ComputedBills;
+import com.codeworks.onboarding.domain.PurchaseRecap;
 import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.bills.ComputeBillsService;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
@@ -42,6 +43,11 @@ public class PurchaseOrchestratorImpl implements PurchaseOrchestrator {
         Recap recap = buildRecap(shipping, purchases, purchaseEntity);
 
         return computeBillsService.execute(mapper.execute(recap));
+    }
+
+    @Override
+    public List<ComputedBills> process(PurchaseRecap recap) {
+        return computeBillsService.execute(recap);
     }
 
     private Recap buildRecap(float shipping, List<Purchase> purchases, PurchaseEntity purchaseEntity) {

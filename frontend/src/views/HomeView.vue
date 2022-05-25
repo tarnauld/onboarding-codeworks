@@ -1,15 +1,13 @@
 <template>
     <div class="home">
         <h1>Home</h1>
-  </div>
+    </div>
 </template>
 <style>
-    @media (min-width: 1024px) {
-        .home {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    }
+.home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>

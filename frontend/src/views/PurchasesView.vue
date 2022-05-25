@@ -14,18 +14,16 @@ export default {
 <template>
     <div class="purchases">
         <h1>Purchases</h1>
-        <Purchases/>
-        <Upload/>
-        <Output/>
+        <Purchases />
+        <Upload />
+        <Output />
     </div>
 </template>
 <style>
-@media (min-width: 1024px) {
-    .purchases {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.purchases {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>

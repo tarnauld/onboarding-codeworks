@@ -1,6 +1,7 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
 import com.codeworks.onboarding.domain.ComputedBills;
+import com.codeworks.onboarding.domain.PurchaseRecap;
 import com.codeworks.onboarding.domain.exceptions.UploadServiceException;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
 import com.codeworks.onboarding.infrastructure.purchase.PurchasesService;
@@ -26,16 +27,13 @@ public class PurchasesResource {
     }
 
     @GetMapping("/purchases")
+    @CrossOrigin(origins = "*")
     public List<PurchaseEntity> getPurchases() {
         return purchasesService.getPurchases();
     }
 
-    @GetMapping("/purchases/{id}")
-    public PurchaseEntity findPurchaseBy(@PathVariable long id) {
-        return purchasesService.findPurchaseBy(id);
-    }
-
     @DeleteMapping("/purchases/{id}")
+    @CrossOrigin(origins = "*")
     public PurchaseEntity deletePurchase(@PathVariable long id) {
         return purchasesService.deletePurchase(id);
     }
@@ -49,5 +47,11 @@ public class PurchasesResource {
         } catch (UploadServiceException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PostMapping("/purchases/compute")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<ComputedBills>> compute(@RequestBody PurchaseRecap recap) {
+        return ResponseEntity.ok(purchaseOrchestrator.process(recap));
     }
 }

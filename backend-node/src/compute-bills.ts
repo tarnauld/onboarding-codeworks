@@ -51,8 +51,8 @@ function cascadeRounding(shipping: number, bills: Array<Bill>): Array<Bill> {
     let billIndex = 0;
 
     while(remainingShipping !== 0.00) {
-        remainingShipping = remainingShipping.toFixed(2) as any - 0.01;
-        bills.at(billIndex)!.shipping = bills.at(0)!.shipping + 0.01;
+        remainingShipping = rounded(remainingShipping.toFixed(2) as any - 0.01);
+        bills.at(billIndex)!.shipping = rounded(bills.at(0)!.shipping + 0.01);
         billIndex = (billIndex === bills.length - 1)?0: billIndex + 1;
     }
 
