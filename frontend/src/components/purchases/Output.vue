@@ -10,7 +10,6 @@ export default {
     mounted() {
         emitter.on('file-uploaded-event', (response) => {
             this.output = response;
-            console.log(this.output)
         });
     }
 }
@@ -22,17 +21,15 @@ export default {
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Country</th>
-                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Shipping</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="user in output" :key="user.id">
-                    <td>{{ user.label }}</td>
-                    <td>
-                        <va-badge :text="user.status" :color="user.status" />
-                    </td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.total }}</td>
+                    <td>{{ user.shipping }}</td>
                 </tr>
             </tbody>
         </table>

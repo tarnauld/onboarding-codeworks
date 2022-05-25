@@ -177,7 +177,11 @@ describe("Compute bills", () => {
         name: "Clara",
         quantity: 1,
         price: 460,
-      },
+      }, {
+        name: "Tim",
+        quantity: 1,
+        price: 10
+      }
     ];
 
     const result = computeBills(shipping, items);
@@ -186,23 +190,28 @@ describe("Compute bills", () => {
       {
         name: "Bertrand",
         total: 18,
-        shipping: 2.98,
+        shipping: 2.93,
       },
       {
         name: "Desmond",
         total: 90,
-        shipping: 14.86,
+        shipping: 14.62,
       },
       {
         name: "Alice",
         total: 37.5,
-        shipping: 6.19,
+        shipping: 6.09,
       },
       {
         name: "Clara",
         total: 460,
-        shipping: 75.97,
+        shipping: 74.74,
       },
+      {
+        name: "Tim",
+        total: 10,
+        shipping: 1.62 
+      }
     ]);
 
     const totalShippingFee = result

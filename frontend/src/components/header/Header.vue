@@ -15,6 +15,9 @@ import {RouterLink} from 'vue-router';
         <RouterLink to="/purchases">Purchases</RouterLink>
       </va-button>
       <va-button  color="#fff" flat :rounded="false">
+        <RouterLink to="/archives">Archives</RouterLink>
+      </va-button>
+      <va-button  color="#fff" flat :rounded="false">
         <RouterLink to="/about">About</RouterLink>
       </va-button>
     </va-app-bar>
