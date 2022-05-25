@@ -5,3 +5,4 @@ dist
 jest-stare
 access.log
 logs
+.DS_Store
