@@ -12,3 +12,5 @@
 * Delete user using HTTP Request 
 * Upload file using VueJS, tiny-emitter and axios
 * Add markdown support for README.md
+* Improve UI
+* Use a docker container for frontend project
