@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +50,7 @@ public class PurchasesServiceImplTest {
         PurchaseEntity purchaseItem = purchaseItems.get(0);
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
-        Assert.assertEquals(1L, purchaseItem.getUserId());
+        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getUserId());
         Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
         Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
 
@@ -64,7 +63,7 @@ public class PurchasesServiceImplTest {
                 .thenReturn(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
 
         PurchaseEntity purchaseItem = purchasesService.findPurchaseBy(1L);
-        Assert.assertEquals(1L, purchaseItem.getUserId());
+        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getUserId());
         Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
         Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
 
@@ -78,7 +77,7 @@ public class PurchasesServiceImplTest {
         PurchaseEntity purchaseItem = purchasesService.create(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
-        Assert.assertEquals(1L, purchaseItem.getUserId());
+        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getUserId());
         Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
         Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
     }

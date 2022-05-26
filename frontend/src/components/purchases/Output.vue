@@ -39,4 +39,8 @@ export default {
 .va-table-responsive {
     overflow: auto;
 }
+
+h2 {
+    margin-top: 2em;
+}
 </style>

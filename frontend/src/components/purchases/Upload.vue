@@ -39,7 +39,10 @@ export default {
 </script>
 <template>
     <va-input class="mb-4" v-model="shipping" :messages="message" label="Shipping fee"/>
-    <va-button @click="upload()" v-bind:disabled="isFormDisabled()">Upload</va-button>
+    <va-button class="upload" @click="upload()" v-bind:disabled="isFormDisabled()">Upload</va-button>
 </template>
 <style>
+.upload {
+    margin-top: 2em;
+}
 </style>
