@@ -27,9 +27,9 @@ public class ComputeBillsResourceTest {
     @Test
     public void should_compute_bills() {
         when(computeBillsService.execute(Mockito.any())).thenReturn(Arrays.asList(
-                ComputedBills.builder().name("Alice").total(1d).shipping(.33).build(),
-                ComputedBills.builder().name("Bertrand").total(1d).shipping(.34).build(),
-                ComputedBills.builder().name("John").total(1d).shipping(.33).build()
+                ComputedBills.builder().name("Alice").total(1f).shipping(.33f).build(),
+                ComputedBills.builder().name("Bertrand").total(1f).shipping(.34f).build(),
+                ComputedBills.builder().name("John").total(1f).shipping(.33f).build()
                 ));
         Assert.assertEquals(3, computeBillsResource.execute(buildShippingFee()).size());
     }

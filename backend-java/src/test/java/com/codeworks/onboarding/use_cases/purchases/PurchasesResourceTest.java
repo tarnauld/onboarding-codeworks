@@ -1,6 +1,8 @@
 package com.codeworks.onboarding.use_cases.purchases;
 
 import com.codeworks.onboarding.domain.ComputedBills;
+import com.codeworks.onboarding.domain.Item;
+import com.codeworks.onboarding.domain.PurchaseRecap;
 import com.codeworks.onboarding.domain.exceptions.UploadServiceException;
 import com.codeworks.onboarding.domain.purchase.Purchase;
 import com.codeworks.onboarding.infrastructure.purchase.PurchaseEntity;
@@ -56,24 +58,11 @@ public class PurchasesResourceTest {
         PurchaseEntity purchaseItem = purchaseItems.get(0);
 
         Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
-        Assert.assertEquals(1L, purchaseItem.getUserId());
+        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getUserId());
         Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
         Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
 
         Assert.assertEquals(4, purchaseItems.size());
-    }
-
-    @Test
-    public void should_get_purchase_by_id() {
-        when(purchasesService.findPurchaseBy(Mockito.anyLong()))
-                .thenReturn(PurchaseEntity.builder().id(1L).userId(1L).shippingFee(100).creationDate(LocalDate.now()).build());
-
-        PurchaseEntity purchaseItem = purchasesResource.findPurchaseBy(1L);
-
-        Assert.assertEquals(Long.valueOf(1L), purchaseItem.getId());
-        Assert.assertEquals(1L, purchaseItem.getUserId());
-        Assert.assertEquals(100, purchaseItem.getShippingFee(), 0);
-        Assert.assertEquals(creationDate, purchaseItem.getCreationDate());
     }
 
     @Test
@@ -109,6 +98,30 @@ public class PurchasesResourceTest {
 
         ResponseEntity<List<ComputedBills>> response = purchasesResource.uploadCSV(mockMultipartFile, 8.f);
         Assert.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void should_compute_bills() {
+        when(purchaseOrchestrator.process(any(PurchaseRecap.class))).thenReturn(buildComputedBills());
+        PurchaseRecap recap = PurchaseRecap.builder()
+                .shipping(100.f)
+                .items(Arrays.asList(
+                        Item.builder().name("John").quantity(10).price(1.).build(),
+                        Item.builder().name("Clara").quantity(10).price(1.).build(),
+                        Item.builder().name("Desmond").quantity(10).price(1.).build()
+                ))
+                .build();
+
+        ResponseEntity<List<ComputedBills>> compute = purchasesResource.compute(recap);
+        Assert.assertEquals(3, Objects.requireNonNull(compute.getBody()).size());
+    }
+
+    private List<ComputedBills> buildComputedBills() {
+        return Arrays.asList(
+                ComputedBills.builder().name("Clara").shipping(34f).total(10f).build(),
+                ComputedBills.builder().name("Desmond").shipping(33f).total(10f).build(),
+                ComputedBills.builder().name("John").shipping(33f).total(10f).build()
+        );
     }
 
     private String buildContent() {

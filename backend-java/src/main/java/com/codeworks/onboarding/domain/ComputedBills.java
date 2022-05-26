@@ -9,8 +9,8 @@ public class ComputedBills {
     private String name;
 
     @Getter
-    private Double total;
+    private Float total;
 
     @Getter
-    private Double shipping;
+    private Float shipping;
 }
