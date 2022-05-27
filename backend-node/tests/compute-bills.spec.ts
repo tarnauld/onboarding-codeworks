@@ -177,11 +177,12 @@ describe("Compute bills", () => {
         name: "Clara",
         quantity: 1,
         price: 460,
-      }, {
+      },
+      {
         name: "Tim",
         quantity: 1,
-        price: 10
-      }
+        price: 10,
+      },
     ];
 
     const result = computeBills(shipping, items);
@@ -210,8 +211,8 @@ describe("Compute bills", () => {
       {
         name: "Tim",
         total: 10,
-        shipping: 1.62 
-      }
+        shipping: 1.62,
+      },
     ]);
 
     const totalShippingFee = result
@@ -219,5 +220,78 @@ describe("Compute bills", () => {
       .reduce((a, b) => a + b);
 
     expect(totalShippingFee).toEqual(100);
+  });
+
+  it("should not produce infinite loop", () => {
+    const shipping = 200;
+
+    const items = [
+      {
+        name: "Bertrand",
+        quantity: 20,
+        price: 0.5,
+      },
+      {
+        name: "Alice",
+        quantity: 25,
+        price: 1.5,
+      },
+      {
+        name: "Desmond",
+        quantity: 50,
+        price: 1.8,
+      },
+      {
+        name: "Clara",
+        quantity: 10,
+        price: 2,
+      },
+      {
+        name: "Clara",
+        quantity: 100,
+        price: 4.3,
+      },
+      {
+        name: "Bertrand",
+        quantity: 1,
+        price: 8,
+      },
+      {
+        name: "Clara",
+        quantity: 10,
+        price: 1,
+      },
+    ];
+
+    const result = computeBills(shipping, items);
+
+    expect(result).toEqual([
+      {
+        name: "Bertrand",
+        total: 18,
+        shipping: 5.94,
+      },
+      {
+        name: "Alice",
+        total: 37.5,
+        shipping: 12.39,
+      },
+      {
+        name: "Desmond",
+        total: 90,
+        shipping: 29.73,
+      },
+      {
+        name: "Clara",
+        total: 460,
+        shipping: 151.94,
+      },
+    ]);
+
+    const totalShippingFee = result
+      .map((r) => r.shipping)
+      .reduce((a, b) => a + b);
+
+    expect(totalShippingFee).toEqual(200);
   });
 });
