@@ -1,0 +1,51 @@
+services:
+  my-postgres-app:
+    build: ./postgres/
+    ports:
+      - "5432:5432"
+    networks:
+            appnet:
+                ipv4_address: 172.75.0.3
+  my-java-app:
+    build: ./backend-java/
+    ports:
+      - "8080:8080"
+    networks:
+            appnet:
+                ipv4_address: 172.75.0.4
+  my-node-app:
+    build: ./backend-node/
+    ports:
+      - "3000:3000"
+    networks:
+            appnet:
+                ipv4_address: 172.75.0.2
+  my-frontend-app:
+    build: ./frontend/
+    ports:
+      - "4000:80"
+    networks:
+            appnet:
+                ipv4_address: 172.75.0.7
+  my-prometheus-app:
+    build: ./prometheus/
+    ports:
+      - "9090:9090"
+    networks:
+            appnet:
+                ipv4_address: 172.75.0.5
+  my-grafana-app:
+    build: ./grafana/
+    ports:
+      - "3333:3000"
+    networks:
+            appnet:
+                ipv4_address: 172.75.0.6
+
+networks:
+    appnet:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: "172.75.2.0/16"
