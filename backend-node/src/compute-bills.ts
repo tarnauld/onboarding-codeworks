@@ -1,11 +1,17 @@
+/* eslint-disable no-useless-constructor */
+/* eslint-disable no-empty-function */
+
 import { Bill } from './models/bill';
 import { Shipping } from './models/shipping';
 import CascadeRounding from './cascade-rounding';
+import BirthdayExclusionProcessor from './birthday-exclusion';
 
 export default class BillsProcessor {
-  private readonly result: Array<Bill> = [];
+  private result: Array<Bill> = [];
 
-  public constructor(readonly shipping: number, readonly items: Array<Shipping>) {
+  public constructor(readonly shipping: number, readonly items: Array<Shipping>) {}
+
+  public execute() {
     this.buildMap().forEach((value: number, key: string) => {
       this.result.push({
         name: key,
@@ -15,15 +21,22 @@ export default class BillsProcessor {
     });
 
     this.result = this.result.sort((a, b) => a.name.localeCompare(b.name));
-  }
 
-  public execute() {
+    const birthdays = BirthdayExclusionProcessor.execute(
+      this.items.map((item) => ({ name: item.name, birthday: item.birthday }))
+    );
+
+    const subResult =
+      [...birthdays].filter(([k, v]) => !v).length === 0
+        ? this.result
+        : this.result.filter((r) => !birthdays.get(r.name));
+
     const cascadeRounding = new CascadeRounding(
       this.shipping,
-      this.result.map((r) => r.total)
+      subResult.map((r) => r.total)
     ).execute();
 
-    this.result.forEach((r, index) => {
+    subResult.forEach((r, index) => {
       r.shipping = cascadeRounding[index];
     });
 

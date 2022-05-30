@@ -1,5 +1,6 @@
 import BillsProcessor from '../src/compute-bills';
 import { Shipping } from '../src/models/shipping';
+import dayjs from 'dayjs';
 
 describe('Compute bills', () => {
   it('should return empty list when given empty list', () => {
@@ -17,6 +18,7 @@ describe('Compute bills', () => {
         name: 'Alice',
         quantity: 8,
         price: 2.5,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
     ];
     const billsProcessor = new BillsProcessor(shipping, items);
@@ -36,11 +38,13 @@ describe('Compute bills', () => {
         name: 'Alice',
         quantity: 10,
         price: 2,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Bernard',
         quantity: 10,
         price: 2,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
     ];
 
@@ -66,11 +70,13 @@ describe('Compute bills', () => {
         name: 'Alice',
         quantity: 8,
         price: 2.5,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Bernard',
         quantity: 5,
         price: 1,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
     ];
 
@@ -96,16 +102,19 @@ describe('Compute bills', () => {
         name: 'Alice',
         quantity: 1,
         price: 1,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Bernard',
         quantity: 1,
         price: 1,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'John',
         quantity: 1,
         price: 1,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
     ];
 
@@ -138,9 +147,9 @@ describe('Compute bills', () => {
   it('should compute shipping for several items per buyer', () => {
     const shipping = 30;
     const items = [
-      { price: 1, quantity: 10, name: 'Bertrand' },
-      { price: 1, quantity: 10, name: 'Alice' },
-      { price: 1, quantity: 10, name: 'Alice' },
+      { price: 1, quantity: 10, name: 'Bertrand', birthday: dayjs().subtract(7, 'day').toDate() },
+      { price: 1, quantity: 10, name: 'Alice', birthday: dayjs().subtract(7, 'day').toDate() },
+      { price: 1, quantity: 10, name: 'Alice', birthday: dayjs().subtract(7, 'day').toDate() },
     ];
 
     const billsProcessor = new BillsProcessor(shipping, items);
@@ -166,26 +175,31 @@ describe('Compute bills', () => {
         name: 'Bertrand',
         quantity: 1,
         price: 18,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Desmond',
         quantity: 1,
         price: 90,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Alice',
         quantity: 1,
         price: 37.5,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Clara',
         quantity: 1,
         price: 460,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Tim',
         quantity: 1,
         price: 10,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
     ];
 
@@ -233,36 +247,43 @@ describe('Compute bills', () => {
         name: 'Bertrand',
         quantity: 20,
         price: 0.5,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Alice',
         quantity: 25,
         price: 1.5,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Desmond',
         quantity: 50,
         price: 1.8,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Clara',
         quantity: 10,
         price: 2,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Clara',
         quantity: 100,
         price: 4.3,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Bertrand',
         quantity: 1,
         price: 8,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
       {
         name: 'Clara',
         quantity: 10,
         price: 1,
+        birthday: dayjs().subtract(7, 'day').toDate(),
       },
     ];
 
@@ -295,5 +316,69 @@ describe('Compute bills', () => {
     const totalShippingFee = result.map((r) => r.shipping).reduce((a, b) => a + b);
 
     expect(totalShippingFee).toEqual(200);
+  });
+
+  it('should return no shipping fee if it\'s user\s birthday', () => {
+    const shipping = 20;
+    const items: Array<Shipping> = [
+      {
+        name: 'Alice',
+        quantity: 10,
+        price: 2,
+        birthday: dayjs().toDate(),
+      },
+      {
+        name: 'Bernard',
+        quantity: 10,
+        price: 2,
+        birthday: dayjs().subtract(7, 'day').toDate(),
+      },
+    ];
+
+    const billsProcessor = new BillsProcessor(shipping, items);
+    expect(billsProcessor.execute()).toEqual([
+      {
+        name: 'Alice',
+        total: 20,
+        shipping: 0,
+      },
+      {
+        name: 'Bernard',
+        total: 20,
+        shipping: 20,
+      },
+    ]);
+  });
+
+  it('should return correct shipping fee if it\'s all user\' birthday', () => {
+    const shipping = 20;
+    const items: Array<Shipping> = [
+      {
+        name: 'Alice',
+        quantity: 10,
+        price: 2,
+        birthday: dayjs().toDate(),
+      },
+      {
+        name: 'Bernard',
+        quantity: 10,
+        price: 2,
+        birthday: dayjs().toDate(),
+      },
+    ];
+
+    const billsProcessor = new BillsProcessor(shipping, items);
+    expect(billsProcessor.execute()).toEqual([
+      {
+        name: 'Alice',
+        total: 20,
+        shipping: 10,
+      },
+      {
+        name: 'Bernard',
+        total: 20,
+        shipping: 10,
+      },
+    ]);
   });
 });
