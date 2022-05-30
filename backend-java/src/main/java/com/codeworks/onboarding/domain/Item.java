@@ -3,6 +3,8 @@ package com.codeworks.onboarding.domain;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Builder
 public class Item {
     @Getter
@@ -13,4 +15,7 @@ public class Item {
 
     @Getter
     private Double price;
+
+    @Getter
+    private LocalDate birthday;
 }

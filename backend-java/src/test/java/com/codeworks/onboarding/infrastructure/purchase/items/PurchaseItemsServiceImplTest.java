@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,8 +92,8 @@ public class PurchaseItemsServiceImplTest {
 
     private List<Purchase> buildPurchases() {
         return Arrays.asList(
-            new Purchase("pencil", 2d, 10, "John"),
-            new Purchase("pencil", 2d, 10, "Clara")
+            new Purchase("pencil", 2d, 10, "John", LocalDate.now()),
+            new Purchase("pencil", 2d, 10, "Clara", LocalDate.now())
         );
     }
 

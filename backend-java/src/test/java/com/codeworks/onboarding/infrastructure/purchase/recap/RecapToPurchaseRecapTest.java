@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
@@ -32,8 +33,8 @@ public class RecapToPurchaseRecapTest {
                 .shipping(8.f)
                 .purchase(PurchaseEntity.builder().build())
                 .items(Arrays.asList(
-                        new Purchase("pencil", 2.d, 10, "John"),
-                        new Purchase("pencil", 2.d, 10, "Clara")
+                        new Purchase("pencil", 2.d, 10, "John", LocalDate.now()),
+                        new Purchase("pencil", 2.d, 10, "Clara", LocalDate.now())
                 ))
                 .build();
     }
