@@ -1,6 +1,7 @@
 package com.codeworks.onboarding.domain.purchase;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Purchase implements Serializable {
     private final String label;
@@ -11,11 +12,14 @@ public class Purchase implements Serializable {
 
     private final String name;
 
-    public Purchase(String label, Double unitPrice, Integer quantity, String name) {
+    private final LocalDate birthday;
+
+    public Purchase(String label, Double unitPrice, Integer quantity, String name, LocalDate birthday) {
         this.label = label;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.name = name;
+        this.birthday = birthday;
     }
 
     public String getLabel() {
@@ -32,5 +36,9 @@ public class Purchase implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
     }
 }

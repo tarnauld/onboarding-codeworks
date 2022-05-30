@@ -94,7 +94,7 @@ public class PurchasesServiceImplTest {
     @Test
     public void should_upload_csv() throws IOException {
         when(uploadCSVService.uploadCSV(any(MultipartFile.class)))
-                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, "Alice")));
+                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, "Alice", LocalDate.now())));
 
         List<Purchase> purchases =
                 purchasesService.uploadCSV(

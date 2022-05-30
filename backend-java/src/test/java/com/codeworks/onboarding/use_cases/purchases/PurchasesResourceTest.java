@@ -78,7 +78,7 @@ public class PurchasesResourceTest {
     public void should_upload_csv() {
         when(purchasesService.create(any(PurchaseEntity.class))).thenReturn(PurchaseEntity.builder().build());
         when(purchasesService.uploadCSV(any(MultipartFile.class)))
-                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, "Alice")));
+                .thenReturn(Collections.singletonList(new Purchase("", 2., 3, "Alice", LocalDate.now())));
 
         MockMultipartFile mockMultipartFile =
                 new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8));

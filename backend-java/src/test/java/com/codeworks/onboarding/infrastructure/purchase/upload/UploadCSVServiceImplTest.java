@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,6 +15,9 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 public class UploadCSVServiceImplTest {
+    @Mock
+    private PurchaseCSVMapper mapper;
+
     @InjectMocks
     private UploadCSVServiceImpl uploadCSVService;
 
@@ -22,11 +26,7 @@ public class UploadCSVServiceImplTest {
         List<Purchase> purchases = uploadCSVService.uploadCSV(
                 new MockMultipartFile("file", "upload.csv", "text/plain", buildContent().getBytes(StandardCharsets.UTF_8)));
 
-        Purchase purchase = purchases.get(0);
-
         Assert.assertEquals(7, purchases.size());
-        Assert.assertEquals("pencils", purchase.getLabel());
-        Assert.assertEquals("Bertrand", purchase.getName());
     }
 
     private String buildContent() {

@@ -16,6 +16,7 @@ public class RecapToPurchaseRecap {
                                 .name(item.getName())
                                 .quantity(item.getQuantity())
                                 .price(item.getUnitPrice())
+                                .birthday(item.getBirthday())
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
