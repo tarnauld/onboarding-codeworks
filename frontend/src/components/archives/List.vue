@@ -34,7 +34,8 @@ export default {
                     return {
                         name: item.user.name,
                         quantity: item.quantity,
-                        price: item.unitPrice
+                        price: item.unitPrice,
+                        birthday: item.user.birthDate
                     }
                 })
             };
