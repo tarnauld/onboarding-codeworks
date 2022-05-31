@@ -3,8 +3,8 @@ import List from '../components/archives/List.vue'
 
 export default {
   components: {
-    List
-  }
+    List,
+  },
 }
 </script>
 <template>
@@ -23,7 +23,7 @@ export default {
 }
 
 h1 {
-    margin-top: 2em;
-    margin-bottom: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 </style>

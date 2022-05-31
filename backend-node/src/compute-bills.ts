@@ -3,13 +3,16 @@
 
 import { Bill } from './models/bill';
 import { Shipping } from './models/shipping';
-import CascadeRounding from './cascade-rounding';
+import Rounding from './cascade-rounding';
 import BirthdayExclusionProcessor from './birthday-exclusion';
 
 export default class BillsProcessor {
   private result: Array<Bill> = [];
 
-  public constructor(readonly shipping: number, readonly items: Array<Shipping>) {}
+  public constructor(
+    readonly shipping: number,
+    readonly items: Array<Shipping>
+  ) {}
 
   public execute() {
     this.buildMap().forEach((value: number, key: string) => {
@@ -26,17 +29,19 @@ export default class BillsProcessor {
       this.items.map((item) => ({ name: item.name, birthday: item.birthday }))
     );
 
-    const subResult =
-      [...birthdays].filter(([k, v]) => !v).length === 0
-        ? this.result
-        : this.result.filter((r) => !birthdays.get(r.name));
+    const hasEveryoneGotABirthday =
+      [...birthdays].filter(([k, v]) => !v).length === 0;
 
-    const cascadeRounding = new CascadeRounding(
+    const payingBuyers = hasEveryoneGotABirthday
+      ? this.result
+      : this.result.filter((r) => !birthdays.get(r.name));
+
+    const cascadeRounding = new Rounding(
       this.shipping,
-      subResult.map((r) => r.total)
+      payingBuyers.map((r) => r.total)
     ).execute();
 
-    subResult.forEach((r, index) => {
+    payingBuyers.forEach((r, index) => {
       r.shipping = cascadeRounding[index];
     });
 
@@ -51,7 +56,10 @@ export default class BillsProcessor {
         totals.set(item.name, 0);
       }
 
-      totals.set(item.name, totals.get(item.name)! + item.quantity * item.price);
+      totals.set(
+        item.name,
+        totals.get(item.name)! + item.quantity * item.price
+      );
     });
 
     return totals;
