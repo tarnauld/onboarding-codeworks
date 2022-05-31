@@ -28,8 +28,8 @@ export default {
             <tbody>
                 <tr v-for="user in output" :key="user.id">
                     <td>{{ user.name }}</td>
-                    <td>{{ user.total }}</td>
-                    <td>{{ user.shipping }}</td>
+                    <td class="money">{{ user.total.toFixed(2) }}</td>
+                    <td class="money">{{ user.shipping.toFixed(2) }}</td>
                 </tr>
             </tbody>
         </table>
@@ -42,5 +42,9 @@ export default {
 
 h2 {
     margin-top: 2em;
+}
+
+.va-table .money {
+    text-align: right;
 }
 </style>

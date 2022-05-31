@@ -139,7 +139,9 @@ describe('Compute bills', () => {
       },
     ]);
 
-    const totalShippingFee = result.map((r) => r.shipping).reduce((a, b) => a + b);
+    const totalShippingFee = result
+      .map((r) => r.shipping)
+      .reduce((a, b) => a + b);
 
     expect(totalShippingFee).toEqual(1);
   });
@@ -147,9 +149,24 @@ describe('Compute bills', () => {
   it('should compute shipping for several items per buyer', () => {
     const shipping = 30;
     const items = [
-      { price: 1, quantity: 10, name: 'Bertrand', birthday: dayjs().subtract(7, 'day').toDate() },
-      { price: 1, quantity: 10, name: 'Alice', birthday: dayjs().subtract(7, 'day').toDate() },
-      { price: 1, quantity: 10, name: 'Alice', birthday: dayjs().subtract(7, 'day').toDate() },
+      {
+        price: 1,
+        quantity: 10,
+        name: 'Bertrand',
+        birthday: dayjs().subtract(7, 'day').toDate(),
+      },
+      {
+        price: 1,
+        quantity: 10,
+        name: 'Alice',
+        birthday: dayjs().subtract(7, 'day').toDate(),
+      },
+      {
+        price: 1,
+        quantity: 10,
+        name: 'Alice',
+        birthday: dayjs().subtract(7, 'day').toDate(),
+      },
     ];
 
     const billsProcessor = new BillsProcessor(shipping, items);
@@ -234,7 +251,9 @@ describe('Compute bills', () => {
       },
     ]);
 
-    const totalShippingFee = result.map((r) => r.shipping).reduce((a, b) => a + b);
+    const totalShippingFee = result
+      .map((r) => r.shipping)
+      .reduce((a, b) => a + b);
 
     expect(totalShippingFee).toEqual(100);
   });
@@ -313,12 +332,14 @@ describe('Compute bills', () => {
       },
     ]);
 
-    const totalShippingFee = result.map((r) => r.shipping).reduce((a, b) => a + b);
+    const totalShippingFee = result
+      .map((r) => r.shipping)
+      .reduce((a, b) => a + b);
 
     expect(totalShippingFee).toEqual(200);
   });
 
-  it('should return no shipping fee if it\'s user\s birthday', () => {
+  it("should return no shipping fee if it's users birthday", () => {
     const shipping = 20;
     const items: Array<Shipping> = [
       {
@@ -350,7 +371,7 @@ describe('Compute bills', () => {
     ]);
   });
 
-  it('should return correct shipping fee if it\'s all user\' birthday', () => {
+  it("should return correct shipping fee if it's all user' birthday", () => {
     const shipping = 20;
     const items: Array<Shipping> = [
       {
