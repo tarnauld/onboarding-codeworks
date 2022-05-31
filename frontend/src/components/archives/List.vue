@@ -24,7 +24,7 @@ export default {
         }
     },
     mounted() {
-        axios.get("http://localhost:8080/purchases").then(response => {
+        axios.get("http://localhost:8080/api/purchases").then(response => {
             this.purchases = response.data
         });
     }

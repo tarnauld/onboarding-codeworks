@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class PurchasesResource {
     private final PurchasesService purchasesService;
 
@@ -27,19 +28,16 @@ public class PurchasesResource {
     }
 
     @GetMapping("/purchases")
-    @CrossOrigin(origins = "*")
     public List<PurchaseEntity> getPurchases() {
         return purchasesService.getPurchases();
     }
 
     @DeleteMapping("/purchases/{id}")
-    @CrossOrigin(origins = "*")
     public PurchaseEntity deletePurchase(@PathVariable long id) {
         return purchasesService.deletePurchase(id);
     }
 
     @PostMapping("/purchases/upload")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<List<ComputedBills>> uploadCSV(@RequestParam("file") MultipartFile multipartFile,
                                                          @RequestParam("shipping") Float shipping) {
         try {
@@ -50,7 +48,6 @@ public class PurchasesResource {
     }
 
     @PostMapping("/purchases/compute")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<List<ComputedBills>> compute(@RequestBody PurchaseRecap recap) {
         return ResponseEntity.ok(purchaseOrchestrator.process(recap));
     }

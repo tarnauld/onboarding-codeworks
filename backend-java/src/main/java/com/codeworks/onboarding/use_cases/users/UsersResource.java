@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class UsersResource {
     private final UserService userService;
 
@@ -17,19 +18,16 @@ public class UsersResource {
     }
 
     @GetMapping("/users")
-    @CrossOrigin(origins = "*")
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
 
     @PostMapping("/users")
-    @CrossOrigin(origins = "*")
     public UserEntity createUser(@RequestBody UserEntity user) {
         return userService.create(user);
     }
 
     @DeleteMapping("/users/{id}")
-    @CrossOrigin(origins = "*")
     public UserEntity deleteUser(@PathVariable long id) {
         return userService.deleteUser(id);
     }

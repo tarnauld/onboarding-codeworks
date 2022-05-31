@@ -12,3 +12,10 @@ management:
     web:
       exposure:
         include: health,info,prometheus
+
+okta:
+  oauth2:
+    issuer: https://dev-06452185.okta.com/oauth2/default
+    clientId: 0oa58cfs2n8G5gu7N5d7
+    clientSecret: K-P8ZH0nZ5OOlUkizCeSrKbdr1Oa2Ps491XEx53U
+    scope: openid profile email

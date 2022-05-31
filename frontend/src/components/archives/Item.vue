@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         deleteItem() {
-            axios.delete(`http://localhost:8080/purchases/${this.idToDelete}`).then(() => {
+            axios.delete(`http://localhost:8080/api/purchases/${this.idToDelete}`).then(() => {
                 this.$emit("item-deleted", this.idToDelete);
             });
         },
@@ -43,7 +43,7 @@ export default {
                     }
                 })
             };
-            axios.post("http://localhost:8080/purchases/compute", recap).then(response => {
+            axios.post("http://localhost:8080/api/purchases/compute", recap).then(response => {
                 this.calculatedShipping = response.data;
             });
         }
@@ -118,10 +118,12 @@ export default {
                         <tr v-if="calculatedShipping">
                             <td></td>
                             <td class="money">
-                                {{ calculatedShipping.map(item => item.total).reduce((acc, value) => acc + value)
+                                {{ calculatedShipping.map(item => item.total).reduce((acc, value) => acc +
+                                        value).toFixed(2)
                                 }}</td>
                             <td class="money">
-                                {{ calculatedShipping.map(item => item.shipping).reduce((acc, value) => acc + value)
+                                {{ calculatedShipping.map(item => item.shipping).reduce((acc, value) => acc +
+                                        value).toFixed(2)
                                 }}</td>
                         </tr>
                     </tbody>

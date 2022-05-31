@@ -1,5 +1,6 @@
 <script>
 import emitter from "tiny-emitter/instance";
+import axios from "axios";
 
 export default {
   data() {
@@ -11,8 +12,14 @@ export default {
     triggerMenu() {
       this.minimized = !this.minimized
       emitter.emit("trigger-menu-event", this.minimized);
+    },
+    async logout() {
+      await this.$auth.signOut()
     }
-  }
+  },
+  created() {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${this.$auth.getAccessToken()}`
+  },
 }
 </script>
 <template>
@@ -33,7 +40,8 @@ export default {
       </a>
     </template>
     <template #right>
-      <div class="version">v1.4.0</div>
+      <va-button icon="logout" class="mr-4" @click="logout"/>
+      <div class="version">v1.0.0</div>
     </template>
   </va-navbar>
 </template>
@@ -77,5 +85,9 @@ export default {
 .version {
   font-weight: 600;
   filter: invert(27%) sepia(76%) saturate(1410%) hue-rotate(202deg) brightness(92%) contrast(98%);
+}
+
+.va-navbar__right {
+  align-items: center;
 }
 </style>
