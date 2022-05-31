@@ -28,6 +28,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.okta.spring</groupId>
+            <artifactId>okta-spring-boot-starter</artifactId>
+            <version>2.1.5</version>
+        </dependency>
+        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
@@ -85,6 +90,7 @@
                 <configuration>
                     <excludes>
                         <exclude>com/codeworks/onboarding/Application.class</exclude>
+                        <exclude>com/codeworks/onboarding/WebConfig.class</exclude>
                         <exclude>com/codeworks/mvc/new_features/httpclient/MyHttpClient.class</exclude>
                     </excludes>
                 </configuration>

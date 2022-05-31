@@ -17,7 +17,7 @@ export default {
             formData.append('file', this.file);
             formData.append('shipping', this.shipping)
 
-            axios.post("http://localhost:8080/purchases/upload", formData, {
+            axios.post("http://localhost:8080/api/purchases/upload", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

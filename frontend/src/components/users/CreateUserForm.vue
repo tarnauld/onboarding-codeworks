@@ -17,7 +17,7 @@ export default {
     validate() {
       this.$refs.form.validate();
       if (this.validation) {
-        axios.post('http://localhost:8080/users/', {
+        axios.post('http://localhost:8080/api/users/', {
           name: this.inputValue,
           birthDate: this.inputDate
         }).then((response) => {

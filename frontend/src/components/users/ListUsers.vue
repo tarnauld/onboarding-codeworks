@@ -15,13 +15,13 @@ export default {
             this.users.push(user);
         });
 
-        axios.get('http://localhost:8080/users').then(response => {
+        axios.get('http://localhost:8080/api/users').then(response => {
             this.users = response.data
         });
     },
     methods: {
         deleteById(userId) {
-            axios.delete(`http://localhost:8080/users/${userId}`).then(() => {
+            axios.delete(`http://localhost:8080/api/users/${userId}`).then(() => {
                 this.users = this.users.filter(user => user.id !== userId);
             })
         }
