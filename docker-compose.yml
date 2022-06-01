@@ -10,6 +10,12 @@ services:
     build: ./backend-java/
     ports:
       - "8080:8080"
+    environment:
+      - OKTA_ISSUER=${OKTA_ISSUER}
+      - OKTA_CLIENT_ID=${OKTA_CLIENT_ID}
+      - OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PW=${POSTGRES_PW}
     networks:
             appnet:
                 ipv4_address: 172.75.0.4
